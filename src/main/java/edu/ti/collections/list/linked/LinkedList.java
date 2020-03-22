@@ -1,7 +1,7 @@
 package edu.ti.collections.list.linked;
 
 public class LinkedList {
-    private class Node {
+    private static class Node {
         Object payload;
         Node next = null;
 
@@ -40,41 +40,89 @@ public class LinkedList {
         return (head == null);
     }
 
-    //TODO -- implement private helper method end that returns last Node in list
+    //returns last node
     private Node end() {
-        return null;
+        Node endNode = head;
+        while (endNode.getNext() != null) {
+            endNode = endNode.getNext();
+        }
+        return endNode;
     }
 
-    //TODO -- implement size to return number of Nodes in list
+    //returns node size
     public int size() {
-        return -1;
+        Node node = head;
+        int size = 1;
+        while (node.getNext() != null) {
+            node = node.getNext();
+            size ++;
+        }
+        return size;
     }
 
-    //TODO -- implement insert, which inserts Node for object as new head of list
+    //inserts new node with object at head of list
     public void insert(Object object) {
-        //code needed here
+        Node newNode = new Node(object);
+        newNode.setNext(head); //newNode points to where head was pointing to
+        head = newNode; //head points to newNode
     }
 
-    //TODO -- implement append, that appends Node to end of list
+    //inserts new node with object at end of list
     public void append(Object object) {
-        //code needed here
+        Node newNode = new Node(object);
+        Node endNode = this.end();
+        endNode.setNext(newNode);
     }
 
-    //TODO -- implement get to retrieve the n-th object in the list,
-    //        return null if n > (size() - 1)
     public Object get(int n) {
-        return null;
+        Node node = head;
+        if (n > (this.size() - 1)) {
+            return null;
+        } else {
+            for (int i = 0; i < n; i++) {
+                node = node.getNext();
+            }
+        }return node.getPayload();
     }
 
-    //TODO -- implement remove to remove n-th element of list,
-    //        return Object if n < size(), null otherwise
     public Object remove(int n) {
-        return null;
+        Node node = head;
+        Node previousNode = null;
+        Object removed = null;
+        if (n < this.size() && (head != null)) {
+            if (n == 0) {
+                head = node.getNext();
+                removed = node.getPayload();
+            } else {
+                for (int i = 0; i < n; i++) {
+                    previousNode = node;
+                    node = node.getNext();
+                }
+                previousNode.setNext(node.getNext());
+                removed = node.getPayload();
+            }
+        } return removed;
     }
 
-    //TODO -- implement remove to remove given object from list,
-    //        return Object if object is in the list, null otherwise
     public Object remove(Object object) {
-        return null;
+        Node node = head;
+        Node previousNode = null;
+        Object removed = null;
+        if (head != null){
+         boolean objectExists = false;
+                for (int count = 0; count < this.size(); count++)
+                { if (node.getPayload().equals(object))
+                    { objectExists = true;
+                    } else {
+                        previousNode = node;
+                        node = node.getNext();
+                    }
+                }if (objectExists)
+                { previousNode.setNext(node.getNext());
+                    removed = node.getPayload();
+                } else {
+                    removed = null;
+            }
+        } return removed;
     }
 }
